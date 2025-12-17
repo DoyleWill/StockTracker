@@ -1,1 +1,1 @@
-# PalPicks
+StockTracker
