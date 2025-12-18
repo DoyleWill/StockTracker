@@ -25,3 +25,7 @@ Pi Trader records your total positive stocks for the day, as well as your total 
 ## Future Updates
 
 Going forward I do not foresee many updates being needed. Outside of some general GUI color or organization changes, the functionality is as I'd like, and would only do bug fixes. Recommendations are welcome.
+
+### Credits
+
+All credits on this project go to [William Doyle](https://github.com/BigWilly760) as the sole developer.
