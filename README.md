@@ -12,6 +12,8 @@ Use the provided requirements.txt file to install the necessary packages. This c
 pip install -r requirements.txt
 ```
 
+Next, you'll need to create an account with [Finnhub](https://finnhub.io/) and generate an API key. When you have your API key, in the root directory of the project, create a file called '.env'. An example file called 'env.example' is provided for you. Simply copy the contents of env.example to your .env file, fill out the 'api_key_here' field with your API key, and you're good to go!
+
 ## Usage
 
 To add a stock to your portfolio, click the small '+' button in the upper left. From here, a text box will pop up, where users can insert their desired stock ticker symbol. If a symbol is invalid, you will see 'INVALID' below the added ticker instead of a price.
