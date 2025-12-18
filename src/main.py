@@ -49,6 +49,14 @@ class StockTrackerApp(ctk.CTk):
         )
         title_label.pack(side="left",pady=5, padx=5)
         
+        self.last_updated_label = ctk.CTkLabel(
+            header_frame,
+            text="Last Updated: --:--",
+            font=ctk.CTkFont(size=10),
+            text_color=self.accent_green
+        )
+        self.last_updated_label.pack(side="left", padx=(5, 0))
+        
         stats_frame = ctk.CTkFrame(header_frame, fg_color="transparent")
         stats_frame.pack(side="right")
         
@@ -142,7 +150,20 @@ class StockTrackerApp(ctk.CTk):
         frame.pack(pady=3, fill="x")
         
         inner = ctk.CTkFrame(frame, fg_color="transparent")
-        inner.pack(pady=10, padx=12, fill="x")
+        inner.pack(pady=8, padx=10, fill="x")
+        
+        remove_btn = ctk.CTkButton(
+            inner,
+            text="✕",
+            command=lambda: self.remove_symbol(symbol),
+            width=20,
+            height=20,
+            font=ctk.CTkFont(size=11),
+            fg_color="transparent",
+            hover_color=self.accent_red,
+            corner_radius=3
+        )
+        remove_btn.place(relx=1.0, rely=0, anchor="ne")
         
         left_section = ctk.CTkFrame(inner, fg_color="transparent")
         left_section.pack(side="left", fill="x", expand=True)
@@ -166,28 +187,16 @@ class StockTrackerApp(ctk.CTk):
         price_label.pack(anchor="w")
         
         right_section = ctk.CTkFrame(inner, fg_color="transparent")
-        right_section.pack(side="right", padx=(10, 0))
+        right_section.pack(side="right", padx=(8, 0))
         
         change_label = ctk.CTkLabel(
             right_section,
             text="--",
             font=ctk.CTkFont(size=16, weight="bold"),
-            text_color=self.text_secondary
+            text_color=self.text_secondary,
+            anchor="e"
         )
-        change_label.pack()
-        
-        remove_btn = ctk.CTkButton(
-            right_section,
-            text="✕",
-            command=lambda: self.remove_symbol(symbol),
-            width=24,
-            height=24,
-            font=ctk.CTkFont(size=12),
-            fg_color="transparent",
-            hover_color=self.accent_red,
-            corner_radius=4
-        )
-        remove_btn.pack(pady=(4, 0))
+        change_label.pack(pady=0)
         
         self.stock_frames[symbol] = {
             'frame': frame,
@@ -241,8 +250,13 @@ class StockTrackerApp(ctk.CTk):
                 price_text = f"${price:.2f}"
             frames['price_label'].configure(text=price_text, text_color=color)
             
+            if abs(change) < 1:
+                dollar_text = f"${abs(change):.3f}"
+            else:
+                dollar_text = f"${abs(change):.2f}"
+            
             arrow = "▲" if is_positive else "▼"
-            change_text = f"{arrow} {abs(change_pct):.1f}%"
+            change_text = f"{arrow} {abs(change_pct):.1f}% {dollar_text}"
             frames['change_label'].configure(text=change_text, text_color=color)
     
     def update_ui_error(self, symbol, error):
@@ -272,6 +286,8 @@ class StockTrackerApp(ctk.CTk):
                 if symbol in self.stock_frames:
                     self.update_stock(symbol)
             
+            current_time = datetime.now().strftime("%I:%M:%S %p")
+            self.after(0, lambda: self.last_updated_label.configure(text=f"Last Updated: {current_time}"))
             self.after(0, self.update_stats)
             time.sleep(5)
     
