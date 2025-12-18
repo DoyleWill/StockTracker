@@ -248,7 +248,7 @@ class StockTrackerApp(ctk.CTk):
     def update_ui_error(self, symbol, error):
         if symbol in self.stock_frames:
             frames = self.stock_frames[symbol]
-            frames['price_label'].configure(text="ERROR", text_color=self.accent_red)
+            frames['price_label'].configure(text="INVALID", text_color=self.accent_red)
             frames['change_label'].configure(text="", text_color=self.text_secondary)
     
     def update_stats(self):

@@ -1,0 +1,4 @@
+customtkinter
+finnhub-python
+python-dotenv
+Pillow
