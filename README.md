@@ -6,7 +6,7 @@ Pi Trader is a small, lightweight stock tracking app. Utilizing [Finnhub](https:
 
 ## Installation
 
-Use the provided requirements.txt file to install the necessary packages. This can be done running the following command
+Use the provided requirements.txt file to install the necessary packages. This can be done running the following command in the root directory.
 
 ```bash
 pip install -r requirements.txt
@@ -21,3 +21,7 @@ To add a stock to your portfolio, click the small '+' button in the upper left. 
 To remove a stock from your portfolio, click the small  'x' symbol next to the stock you would like to remove.
 
 Pi Trader records your total positive stocks for the day, as well as your total negative trades for the day, both of which can be found in the top right.
+
+## Future Updates
+
+Going forward I do not foresee many updates being needed. Outside of some general GUI color or organization changes, the functionality is as I'd like, and would only do bug fixes. Recommendations are welcome.
