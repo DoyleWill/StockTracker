@@ -30,4 +30,4 @@ Going forward I do not foresee many updates being needed. Outside of some genera
 
 ## Credits
 
-All credits on this project go to [William Doyle](https://github.com/BigWilly760) as the sole developer.
+All credits on this project go to [William Doyle](https://github.com/DoyleWill) as the sole developer.
