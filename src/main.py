@@ -2,6 +2,7 @@ import customtkinter as ctk
 import finnhub
 import threading
 import time
+import json
 from datetime import datetime
 from dotenv import load_dotenv
 import os
@@ -28,7 +29,7 @@ class StockTrackerApp(ctk.CTk):
         self.text_secondary = "#8892b0"
         self.configure(fg_color=self.bg_primary)
         self.client = finnhub.Client(api_key=API_KEY)
-        self.symbols = ["AAPL", "MSFT", "AMZN", "GOOGL"]
+        self.symbols = self.load_portfolio()
         self.stock_frames = {}
         self.running = True
         self.show_add_section = False
@@ -36,6 +37,28 @@ class StockTrackerApp(ctk.CTk):
         self.update_thread = threading.Thread(target=self.update_loop, daemon=True)
         self.update_thread.start()
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
+    
+    def load_portfolio(self):
+        try:
+            with open('portfolio.json', 'r') as f:
+                return json.load(f)
+        except FileNotFoundError:
+            default = ["AAPL", "MSFT", "AMZN", "GOOGL"]
+            self.save_portfolio_list(default)
+            return default
+        except Exception as e:
+            print(f"Error loading portfolio: {e}")
+            return ["AAPL", "MSFT", "AMZN", "GOOGL"]
+    
+    def save_portfolio_list(self, portfolio_list):
+        try:
+            with open('portfolio.json', 'w') as f:
+                json.dump(portfolio_list, f, indent=2)
+        except Exception as e:
+            print(f"Error saving portfolio: {e}")
+    
+    def save_portfolio(self):
+        self.save_portfolio_list(self.symbols)
     
     def create_widgets(self):
         header_frame = ctk.CTkFrame(self, fg_color="transparent")
@@ -212,6 +235,7 @@ class StockTrackerApp(ctk.CTk):
             self.symbol_entry.delete(0, 'end')
             self.update_stock(symbol)
             self.update_stats()
+            self.save_portfolio()
     
     def remove_symbol(self, symbol):
         if symbol in self.symbols:
@@ -220,6 +244,7 @@ class StockTrackerApp(ctk.CTk):
                 self.stock_frames[symbol]['frame'].destroy()
                 del self.stock_frames[symbol]
             self.update_stats()
+            self.save_portfolio()
     
     def update_stock(self, symbol):
         try:
