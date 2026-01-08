@@ -33,6 +33,7 @@ class StockTrackerApp(ctk.CTk):
         self.stock_frames = {}
         self.running = True
         self.show_add_section = False
+        self.force_show_prices = False
         self.create_widgets()
         self.update_thread = threading.Thread(target=self.update_loop, daemon=True)
         self.update_thread.start()
@@ -59,6 +60,11 @@ class StockTrackerApp(ctk.CTk):
     
     def save_portfolio(self):
         self.save_portfolio_list(self.symbols)
+    
+    def is_market_closed(self):
+        now = datetime.now()
+        hour = now.hour
+        return hour < 9 or hour >= 16
     
     def create_widgets(self):
         header_frame = ctk.CTkFrame(self, fg_color="transparent")
@@ -143,6 +149,53 @@ class StockTrackerApp(ctk.CTk):
         )
         add_btn.pack(side="left")
         
+        self.closed_frame = ctk.CTkFrame(
+            self,
+            fg_color=self.bg_card,
+            corner_radius=12,
+            border_width=2,
+            border_color="#2a3447"
+        )
+        
+        closed_content = ctk.CTkFrame(self.closed_frame, fg_color="transparent")
+        closed_content.place(relx=0.5, rely=0.5, anchor="center")
+        
+        moon_label = ctk.CTkLabel(
+            closed_content,
+            text="🌙",
+            font=ctk.CTkFont(size=60)
+        )
+        moon_label.pack(pady=(0, 10))
+        
+        closed_text = ctk.CTkLabel(
+            closed_content,
+            text="The Market is Closed",
+            font=ctk.CTkFont(size=20, weight="bold"),
+            text_color=self.text_primary
+        )
+        closed_text.pack(pady=5)
+        
+        closed_subtext = ctk.CTkLabel(
+            closed_content,
+            text="Trading hours: 9:30 AM - 4:00 PM ET",
+            font=ctk.CTkFont(size=12),
+            text_color=self.text_secondary
+        )
+        closed_subtext.pack(pady=(0, 15))
+        
+        view_btn = ctk.CTkButton(
+            closed_content,
+            text="View Prices Anyway",
+            command=self.show_prices_anyway,
+            height=32,
+            font=ctk.CTkFont(size=13, weight="bold"),
+            fg_color=self.accent_green,
+            text_color="#000000",
+            hover_color="#00cc6f",
+            corner_radius=6
+        )
+        view_btn.pack()
+        
         self.stocks_frame = ctk.CTkScrollableFrame(
             self,
             fg_color="transparent",
@@ -153,6 +206,21 @@ class StockTrackerApp(ctk.CTk):
         
         for symbol in self.symbols:
             self.create_stock_frame(symbol)
+        self.update_market_display()
+    
+    def show_prices_anyway(self):
+        self.force_show_prices = True
+        self.update_market_display()
+    
+    def update_market_display(self):
+        market_closed = self.is_market_closed()
+        
+        if market_closed and not self.force_show_prices:
+            self.stocks_frame.pack_forget()
+            self.closed_frame.pack(pady=(5, 5), padx=10, fill="both", expand=True)
+        else:
+            self.closed_frame.pack_forget()
+            self.stocks_frame.pack(pady=(5, 5), padx=10, fill="both", expand=True)
     
     def toggle_add_section(self):
         self.show_add_section = not self.show_add_section
@@ -307,6 +375,8 @@ class StockTrackerApp(ctk.CTk):
     
     def update_loop(self):
         while self.running:
+            self.after(0, self.update_market_display)
+            
             for symbol in self.symbols[:]:
                 if symbol in self.stock_frames:
                     self.update_stock(symbol)
