@@ -21,12 +21,12 @@ class StockTrackerApp(ctk.CTk):
         self.geometry("480x320")
         self.attributes('-fullscreen', False)
         
-        self.bg_primary = "#0a0e27"
-        self.bg_card = "#1a2332"
-        self.accent_green = "#00ff88"
+        self.bg_primary = "#1c112b"
+        self.bg_card = "#2a1b3f"
+        self.accent_green = "#00d47a"
         self.accent_red = "#ff4757"
-        self.text_primary = "#ffffff"
-        self.text_secondary = "#8892b0"
+        self.text_primary = "#c9a0f5"
+        self.text_secondary = "#9b8ab8"
         self.configure(fg_color=self.bg_primary)
         self.client = finnhub.Client(api_key=API_KEY)
         self.symbols = self.load_portfolio()
@@ -113,7 +113,7 @@ class StockTrackerApp(ctk.CTk):
             height=24,
             font=ctk.CTkFont(size=14),
             fg_color=self.bg_card,
-            hover_color="#2a3447",
+            hover_color="#3a2a5a",
             corner_radius=4
         )
         self.edit_btn.pack(side="left", padx=(8, 0))
@@ -154,7 +154,7 @@ class StockTrackerApp(ctk.CTk):
             fg_color=self.bg_card,
             corner_radius=12,
             border_width=2,
-            border_color="#2a3447"
+            border_color="#3a2a5a"
         )
         
         closed_content = ctk.CTkFrame(self.closed_frame, fg_color="transparent")
@@ -200,7 +200,7 @@ class StockTrackerApp(ctk.CTk):
             self,
             fg_color="transparent",
             scrollbar_button_color="#2a3447",
-            scrollbar_button_hover_color="#3a4557"
+            scrollbar_button_hover_color="#3a2a5a"
         )
         self.stocks_frame.pack(pady=(5, 5), padx=10, fill="both", expand=True)
         
