@@ -1,3 +1,5 @@
+<img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=6A0DAD&height=120&section=header" alt="header"/>
+
 # Pi Trader - Raspberry Pi-Based Stock Trader
 
 ![PiTrader Screenshot](docs/example.png)
@@ -13,6 +15,20 @@ pip install -r requirements.txt
 ```
 
 Next, you'll need to create an account with [Finnhub](https://finnhub.io/) and generate an API key. When you have your API key, in the root directory of the project, create a file called '.env'. An example file called 'env.example' is provided for you. Simply copy the contents of env.example to your .env file, fill out the 'api_key_here' field with your API key, and you're good to go!
+
+## Launching
+To install Pi Trader as a command accessible anywhere on your system, run the following from the root directory:
+```bash
+pip install -e .
+```
+Once installed, you can launch Pi Trader from any directory by simply running:
+```bash
+stocktracker
+```
+Alternatively, you can launch it directly without installing by running:
+```bash
+python src/main.py
+```
 
 ## Usage
 
@@ -31,3 +47,4 @@ Going forward I do not foresee many updates being needed. Outside of some genera
 ## Credits
 
 All credits on this project go to [William Doyle](https://github.com/DoyleWill) as the sole developer.
+<img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=6A0DAD&height=120&section=footer" alt="footer"/>

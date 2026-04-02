@@ -390,6 +390,9 @@ class StockTrackerApp(ctk.CTk):
         self.running = False
         self.destroy()
 
-if __name__ == "__main__":
+def main():
     app = StockTrackerApp()
     app.mainloop()
+
+if __name__ == "__main__":
+    main()
